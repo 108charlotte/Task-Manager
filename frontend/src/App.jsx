@@ -31,7 +31,7 @@ function App() {
       {tasks.length > 0 && (
         <ul>
           {tasks.map((task, index) => (
-            <li key={index}>{task}: {description}</li>
+            <li key={index}>{task.name}: {task.description}</li>
           ))}
         </ul>
       )}
