@@ -1,35 +1,42 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState([]); 
+  const [username, setUsername] = useState(""); 
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    fetch("http://localhost:4000/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({"username": username})
+    })
+      .then((response) => response.json())
+      .then((tasks) => setTasks(tasks))
+      .catch((error) => console.error("Error:", error));
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Enter a username to see your tasks</label><br/><br />
+        <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br />
+        <br />
+        <button type="submit">See this user's tasks</button>
+      </form>
+      
+      {tasks.length > 0 && (
+        <ul>
+          {tasks.map((task, index) => (
+            <li key={index}>{task}: {description}</li>
+          ))}
+        </ul>
+      )}
     </>
   )
 }
 
-export default App
+export default App;

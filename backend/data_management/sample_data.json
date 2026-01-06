@@ -1,0 +1,20 @@
+[
+  {
+    "model":"data_management.Task",
+    "pk":1,
+    "fields":{
+      "username": "TestUser", 
+      "name": "Finish this application", 
+      "description": "Nothing really"
+    }
+  },
+  {
+    "model":"data_management.Task",
+    "pk":2,
+    "fields":{
+      "username": "TestUser",
+      "name": "idk", 
+      "description": "description"
+    }
+  }
+]

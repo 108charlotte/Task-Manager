@@ -8,3 +8,5 @@ docker run --rm -v $(pwd):/app backend python manage.py startapp APPNAME or runs
 
 after to clean up: 
 docker rmi backend
+
+manage.py loaddata 
