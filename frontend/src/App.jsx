@@ -7,7 +7,7 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    fetch("http://localhost:4000/tasks", {
+    fetch("http://localhost:8000/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -29,7 +29,7 @@ function App() {
       </form>
       
       {
-        <ul class="task-list-ul">
+        <ul className="task-list-ul">
           {tasks.map((task, index) => (
             <li key={index}>{task.name}: {task.description}</li>
           ))}

@@ -3,10 +3,20 @@ services:
   backend: 
     build: ./backend
     ports: 
-      - "4000:4000"
+      - "8000:8000"
     # idk if this volumes thing is right here
     volumes:
-      - ./backend:/backend
+      - ./backend:/app
+    command: >
+      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment: 
+      - DB_HOST=db
+      - DB_NAME=db
+      - DB_USER=user
+      - DB_PASS=temp
+    depends_on: 
+      db: 
+        condition: service_healthy
 
   frontend: 
     build: ./frontend
@@ -26,10 +36,10 @@ services:
       - POSTGRES_PASSWORD=temp
     healthcheck: 
     # checks that database is up/healthy
-      test: ["CMD", "pg_isready", "-q", "db", "-U", "user"]
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "db", "-h", "localhost", "-p", "5432"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 20
 
 volumes: 
   db-data: 
