@@ -1,3 +1,4 @@
 # install latest Django 5.x version
 Django>=5.1,<6.0
 django-cors-headers
+psycopg[c]==3.2.3

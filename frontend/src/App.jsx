@@ -22,19 +22,19 @@ function App() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Enter a username to see your tasks (case-sensitive)</label><br/><br />
-        <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br />
-        <br />
+        <label>Enter a username to see your tasks (case-sensitive)</label><br/><br/>
+        <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
+        <br/>
         <button type="submit">See this user's tasks</button>
       </form>
       
-      {tasks.length > 0 && (
-        <ul>
+      {
+        <ul class="task-list-ul">
           {tasks.map((task, index) => (
             <li key={index}>{task.name}: {task.description}</li>
           ))}
         </ul>
-      )}
+      }
     </>
   )
 }

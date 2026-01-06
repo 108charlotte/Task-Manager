@@ -4,8 +4,32 @@ services:
     build: ./backend
     ports: 
       - "4000:4000"
+    # idk if this volumes thing is right here
+    volumes:
+      - ./backend:/backend
 
   frontend: 
     build: ./frontend
     ports: 
       - "5173:5173"
+
+  db: 
+    image: postgres:17.1
+    volumes: 
+      - db-data:/var/lib/postgresql/data
+    ports: 
+    # default port for postgres
+      - 5432:5432
+    environment: 
+      - POSTGRES_DB=db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=temp
+    healthcheck: 
+    # checks that database is up/healthy
+      test: ["CMD", "pg_isready", "-q", "db", "-U", "user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes: 
+  db-data: 
