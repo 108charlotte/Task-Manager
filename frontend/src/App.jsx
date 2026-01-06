@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Enter a username to see your tasks</label><br/><br />
+        <label htmlFor="username">Enter a username to see your tasks (case-sensitive)</label><br/><br />
         <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br />
         <br />
         <button type="submit">See this user's tasks</button>
