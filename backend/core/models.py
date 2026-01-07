@@ -6,7 +6,6 @@ class Task(models.Model):
     username = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     description = models.CharField(max_length=400, null=True, blank=True)
-    completed = models.BooleanField()
 
     # for django admin display
     def __str__(self): 

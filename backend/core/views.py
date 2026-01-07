@@ -22,9 +22,9 @@ def addTaskForUser(request):
         task_name = data.get("taskname")
         task_desc = data.get("taskdesc")
         # preventing duplicates
-        duplicate = Task.objects.filter(username=username, name=task_name).exists() # description can be the same, name just has to be different (this makes updateStatus possible)
-        if not duplicate: 
-            user_task = Task(username=username, name=task_name, description=task_desc, completed=False).save() # add the task to the user, I don't necessarily need to be assigning a variable to this value since it's already saved
+        is_duplicate = Task.objects.filter(username=username, name=task_name).exists() # description can be the same, name just has to be different (this makes updateStatus possible)
+        if not is_duplicate: # if the duplicate doesn't exist
+            user_task = Task(username=username, name=task_name, description=task_desc).save() # add the task to the user, I don't necessarily need to be assigning a variable to this value since it's already saved
         # hopefully the postgres database updates fast enough for the new task to get sent to the backend, but if this doesn't work then I know why
         return getTasks(username)
     return JsonResponse({"error": "Needs a post request to get a user's tasks"})
@@ -43,5 +43,5 @@ def deleteTask(request):
 
 # utility function called at the end of every function so that the frontend knows what to display, rn this isn't working for some reason? 
 def getTasks(username): 
-    user_tasks = list(Task.objects.filter(username=username).values("name", "description", "completed"))
+    user_tasks = list(Task.objects.filter(username=username).values("name", "description"))
     return JsonResponse(user_tasks, safe=False)
