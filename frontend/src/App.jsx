@@ -80,7 +80,7 @@ function App() {
     <>
       <h1>Tasks Manager</h1>
       <form onSubmit={handleSubmit}>
-        <label>Enter a username to see your tasks (case-sensitive)</label><br/><br/>
+        <label>Enter a username to see their tasks (case-sensitive)</label><br/><br/>
         <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
         <br/>
         <button type="submit">See this user's tasks</button>
