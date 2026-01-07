@@ -11,6 +11,7 @@ function App() {
   const [sendStatusUpdateRequest, setSendStatusUpdateRequest] = useState(false); 
   const [errorForUser, setErrorForUser] = useState(""); 
   const [numTasks, setNumTasks] = useState(0); {/* will allow me to know if a new task has been added/deleted and if not explain why to the user */}
+  const [addTaskRequest, setAddTaskRequest] = useState(false); 
 
   useEffect(() => {
     if (sendStatusUpdateRequest) {
