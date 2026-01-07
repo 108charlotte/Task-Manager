@@ -22,10 +22,9 @@ def addTaskForUser(request):
         task_name = data.get("taskname")
         task_desc = data.get("taskdesc")
         # preventing duplicates
-        duplicate = Task.objects.filter(username=username, name=task_name) # description can be the same, name just has to be different (this makes updateStatus possible)
-        if duplicate != None: 
-            return JsonResponse({}) # don't add task if a duplicate
-        user_task = Task(username=username, name=task_name, description=task_desc, completed=False).save() # add the task to the user, I don't necessarily need to be saving this
+        duplicate = Task.objects.filter(username=username, name=task_name).exists() # description can be the same, name just has to be different (this makes updateStatus possible)
+        if not duplicate: 
+            user_task = Task(username=username, name=task_name, description=task_desc, completed=False).save() # add the task to the user, I don't necessarily need to be assigning a variable to this value since it's already saved
         # hopefully the postgres database updates fast enough for the new task to get sent to the backend, but if this doesn't work then I know why
         return getTasks(username)
     return JsonResponse({"error": "Needs a post request to get a user's tasks"})
