@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
@@ -7,7 +7,24 @@ function App() {
   const [namefortask, setnamefortask] = useState(""); 
   const [descfortask, setdescfortask] = useState(""); 
   const [tasksLoaded, setTasksLoaded] = useState(false); 
-  const [style, setStyle] = useState("uncrossed")
+  const [clickedTaskName, setClickedTaskName] = useState(""); 
+  const [sendStatusUpdateRequest, setSendStatusUpdateRequest] = useState(false)
+
+  useEffect(() => {
+    if (sendStatusUpdateRequest) {
+      fetch("http://localhost:8000/deletetask", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify({"clickedtaskname": clickedTaskName, "usernamefortask": username})
+      }).then((response) => response.json())
+        .then((tasks) => setTasks(tasks))
+        .catch((error) => console.log("Error:", error));  
+      setSendStatusUpdateRequest(false); 
+    }
+  }, [sendStatusUpdateRequest]
+)
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
@@ -38,13 +55,16 @@ function App() {
       .catch((error) => console.error("Error:", error)); 
   }
 
-  const changeCrossthrough = () => {
-    if (style !== "crossed") setStyle("crossed"); 
-    else setStyle("uncrossed"); 
+  const deleteTask = (event) => {
+    event.preventDefault(); 
+    console.log(event.currentTarget.id); 
+    setClickedTaskName(event.currentTarget.id); 
+    setSendStatusUpdateRequest(true); {/* should make sure the clicked task name actually updates */}
   }
 
   return (
     <>
+      <h1>Tasks Manger</h1>
       <form onSubmit={handleSubmit}>
         <label>Enter a username to see your tasks (case-sensitive)</label><br/><br/>
         <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
@@ -54,8 +74,9 @@ function App() {
       
       {
         <ul className="task-list-ul">
+          {/* need to make the : conditional on if there is a description */}
           {tasks.map((task, index) => (
-            <li className={style} onClick={changeCrossthrough} key={index}>{task.name}: {task.description}</li>
+            <li style={{textDecoration: task.completed ? 'line-through' : 'none'}} onClick={deleteTask} key={index} id={task.name}>{task.name}: {task.description}</li>
           ))}
         </ul>
       }
