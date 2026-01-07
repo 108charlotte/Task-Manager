@@ -8,13 +8,22 @@ from django.http import JsonResponse
 # so django doesn't reject request
 @csrf_exempt
 def getUserTasks(request): 
-    print("received request")
     if request.method == "POST": 
-        print("received POST request")
         data = json.loads(request.body)
         username = data.get("username")
-        print("Username: " + username)
         user_tasks = list(Task.objects.filter(username=username).values("name", "description"))
-        print(user_tasks)
         return JsonResponse(user_tasks, safe=False)
     return JsonResponse({"error": "Needs a post request to retreive user's tasks"})
+
+@csrf_exempt
+def addTaskForUser(request): 
+    if request.method == "POST": 
+        data = json.loads(request.body)
+        username = data.get("username")
+        task_name = data.get("taskname")
+        task_desc = data.get("taskdesc")
+        user_task = Task(username=username, name=task_name, description=task_desc).save()
+        # hopefully the postgres database updates fast enough for the new task to get sent to the backend, but if this doesn't work then I know why
+        user_tasks = list(Task.objects.filter(username=username).values("name", "description"))
+        return JsonResponse(user_tasks, safe=False)
+    return JsonResponse({"error": "Needs a post request to get a user's tasks"})
