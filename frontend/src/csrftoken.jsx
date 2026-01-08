@@ -1,4 +1,4 @@
-// Source - https://stackoverflow.com/a
+// Source - https://stackoverflow.com/questions/50732815/how-to-use-csrf-token-in-django-restful-api-and-react/50735730#50735730
 // Posted by orvi, modified by community. See post 'Timeline' for change history
 // Retrieved 2026-01-08, License - CC BY-SA 4.0
 // I would cite this but it seems that it was done automatically! This is so that I can make my requests more secure and don't have to use the csrf exempt tag on all of my django functions
