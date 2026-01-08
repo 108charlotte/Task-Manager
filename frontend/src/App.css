@@ -1,20 +1,56 @@
 * {
   font-family: "Nunito", sans-serif; 
-  margin-top: 5px; 
 }
 
-button {
-  margin-bottom: 10px; 
+h1 {
+  margin: 10px; 
 }
 
 .task-list-ul {
   text-align: left
 }
 
-.crossed {
-  text-decoration: line-through; 
+.username-form {
+  background: rgb(202, 202, 202); 
+  padding: 15px; 
+  border-radius: 10px; 
+  margin: 10px; 
+  width: 500px; 
 }
 
-.uncrossed {
-  text-decoration: none; 
+.task-list {
+  background: rgb(212, 212, 212); 
+  padding: 15px; 
+  border-radius: 10px; 
+  border-radius: 10px; 
+  margin: 10px; 
+  width: 500px; 
+}
+
+.add-task {
+  background: rgb(212, 212, 212); 
+  padding: 15px; 
+  border-radius: 10px; 
+  border-radius: 10px; 
+  margin: 10px; 
+  width: 500px; 
+}
+
+.error {
+  color: red; 
+  margin-left: 10px; 
+}
+
+button {
+  background-color: rgb(185, 185, 185); 
+  border: 2px solid rgb(79, 79, 79); 
+  border-radius: 5px; 
+}
+
+input {
+  border: 2px solid rgb(158, 158, 163); 
+  border-radius: 5px; 
+  padding: 5px; 
+  width: 200px; 
+  margin: 10px 10px; 
 }
