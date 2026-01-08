@@ -32,7 +32,7 @@ function Login() {
         .then((response) => response.json())
         .then((error) => {
             if (error.error == "None, login successful") {
-                navigate('/', { state: { username: username } })
+                navigate('/', { state: { username: username, activeUserUsername: username } })
             } else {
                 console.error("Error:", error.error); 
                 setErrorForUser(error.error)

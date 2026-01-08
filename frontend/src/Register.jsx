@@ -34,7 +34,7 @@ function Login() {
         .then((error) => {
             {/* using this sort of error passing from the backend helps me provide the user with more specific feedback */}
             if (error.error == "None, user creation successful") {
-                navigate('/', { state: { username: username } })
+                navigate('/', { state: { username: username, activeUserUsername: username } })
             } else {
                 console.error("Error:", error.error); 
                 setErrorForUser(error.error)

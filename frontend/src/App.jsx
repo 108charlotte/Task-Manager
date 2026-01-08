@@ -81,6 +81,7 @@ function App() {
   return (
     <>
       <h1>Tasks Manager</h1>
+      <p>Welcome {location.state?.activeUserUsername}! </p>
       <div class="username-form">
         <form onSubmit={handleSubmit}>
           <label>Enter a username to see their tasks (case-sensitive)</label><br/><br/>
