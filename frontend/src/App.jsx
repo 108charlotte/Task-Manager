@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'; 
 import './App.css'; 
+import { useLocation } from 'react-router-dom'; 
 
 function App() {
+  const location = useLocation();
+
   const [tasks, setTasks] = useState([]); 
-  const [username, setUsername] = useState(""); 
+  const [username, setUsername] = useState(location.state?.username || ""); 
   const [namefortask, setnamefortask] = useState(""); 
   const [descfortask, setdescfortask] = useState(""); 
   const [tasksLoaded, setTasksLoaded] = useState(false); 
@@ -87,11 +90,11 @@ function App() {
         </form>
       </div>
 
-      <div class="error">
+      <div className="error">
         <p>{errorForUser}</p>
       </div>
       {tasks.length > 0 && tasksLoaded && 
-        <div class="task-list">
+        <div className="task-list">
           <p>Tasks: </p>
           {
             <ul className="task-list-ul">
