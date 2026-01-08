@@ -12,3 +12,8 @@ after to clean up:
 docker rmi backend
 
 manage.py loaddata 
+
+for a complete docker container rebuild: 
+docker-compose down
+docker-compose build --no-cache
+docker-compose up

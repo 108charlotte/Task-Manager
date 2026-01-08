@@ -18,6 +18,32 @@ function App() {
 
   const navigate = useNavigate(); 
 
+  function getTasksForUsername() {
+    fetch("http://localhost:8000/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", 
+        "X-CSRFToken": getCookie('csrftoken'),
+      },
+      credentials: "include", 
+      body: JSON.stringify({"username": username})
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          setErrorForUser(data.error);
+          setTasks([]);
+        } else {
+          setTasks(data);
+          setTasksLoaded(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error); 
+        setErrorForUser("Error retrieving tasks for " + username);
+      });
+  }
+
   useEffect(() => {
       fetch("http://localhost:8000/authentication/login", {
           method: "GET",
@@ -35,32 +61,26 @@ function App() {
         }, 
         credentials: "include", 
         body: JSON.stringify({"clickedtaskname": clickedTaskName, "usernamefortask": username})
-      }).then((response) => response.json())
-        .then((tasks) => setTasks(tasks))
-        .catch((error) => {
-          console.log("Error:", error);
-          setErrorForUser("Error deleting task");
-        });  
+      })
+      .then(response => response.json())
+      .then((error) => {
+        if (error.error == "None, successfully deleted task") {
+          getTasksForUsername();
+        } else {
+          setErrorForUser(error.error);  
+        }
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+        setErrorForUser("Error deleting task");
+      });  
       setSendStatusUpdateRequest(false); 
     }
   }, [sendStatusUpdateRequest, clickedTaskName, username])
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    fetch("http://localhost:8000/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", 
-        "X-CSRFToken": getCookie('csrftoken'),
-      },
-      credentials: "include", 
-      body: JSON.stringify({"username": username})
-    })
-      .then((response) => response.json())
-      .then((tasks) => setTasks(tasks))
-      .catch((error) => console.error("Error:", error));
-    
-    setTasksLoaded(true); 
+    getTasksForUsername();
   }
 
   const addTask = (event) => {
@@ -74,23 +94,25 @@ function App() {
       }, 
       credentials: "include", 
       body: JSON.stringify({"taskname": namefortask, "taskdesc": descfortask, "username": username})
-    }).then((response) => response.json())
-      .then((newTasks) => {
-        if (newTasks.length === tasks.length) {
-          setErrorForUser("Please enter a task with a unique name for this username");
-        } else {
-          setTasks(newTasks);
-          setnamefortask("");
-          setdescfortask("");
-        }
-      }).catch((error) => {console.error("Error:", error); setErrorForUser("Error adding task")}); 
+    })
+    .then(response => response.json())
+    .then((error) => {
+      if (error.error == "None, successfully added task") {
+        getTasksForUsername();
+        setnamefortask("");
+        setdescfortask("");
+      } else {
+        setErrorForUser(error.error); 
+      }
+    })
+    .catch((error) => {console.error("Error:", error); setErrorForUser("Error adding task")}); 
   }
 
   const deleteTask = (event) => {
     event.preventDefault(); 
     setClickedTaskName(event.currentTarget.id); 
-    setErrorForUser(""); {/* for some reason this isn't clearing the error for user */}
-    setSendStatusUpdateRequest(true); {/* should make sure the clicked task name actually updates */}
+    setErrorForUser("");
+    setSendStatusUpdateRequest(true);
   }
 
   const logout = (event) => {
@@ -135,7 +157,7 @@ function App() {
           <div className="error">
             <p>{errorForUser}</p>
           </div>
-          {tasks.length > 0 && tasksLoaded && 
+          {tasks.length > 0 && tasksLoaded && location.state?.activeUserUsername == username && 
             <div className="task-list">
               <p>Tasks: </p>
               <ul className="task-list-ul">
@@ -145,7 +167,7 @@ function App() {
               </ul>
             </div>
           }
-          {tasksLoaded && (
+          {tasksLoaded && location.state?.activeUserUsername == username && (
             <div className="add-task">
               <form onSubmit={addTask}>
                 <CSRFToken />
