@@ -33,14 +33,17 @@ function App() {
         if (data.error) {
           setErrorForUser(data.error);
           setTasks([]);
+          setTasksLoaded(false);
         } else {
           setTasks(data);
           setTasksLoaded(true);
+          setErrorForUser("");
         }
       })
       .catch((error) => {
         console.error("Error:", error); 
         setErrorForUser("Error retrieving tasks for " + username);
+        setTasksLoaded(false);
       });
   }
 
@@ -148,7 +151,7 @@ function App() {
             <form onSubmit={handleSubmit}>
               <CSRFToken />
               <label>Enter a username to see their tasks (case-sensitive)</label><br/><br/>
-              <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
+              <input type="text" id="username" name="username" value={username} onChange={(e) => {setUsername(e.target.value); setTasksLoaded(false); }}/><br/>
               <br/>
               <button type="submit">See this user's tasks</button>
             </form>
@@ -157,7 +160,9 @@ function App() {
           <div className="error">
             <p>{errorForUser}</p>
           </div>
-          {tasks.length > 0 && tasksLoaded && location.state?.activeUserUsername == username && 
+          {tasks.length == 0 && tasksLoaded ? (
+            <div className="task-list"><p>This user doesn't have any tasks right now! </p></div>
+          ) : tasksLoaded && 
             <div className="task-list">
               <p>Tasks: </p>
               <ul className="task-list-ul">
