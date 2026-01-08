@@ -15,7 +15,7 @@ function Login() {
         fetch("http://localhost:8000/authentication/login", {
             method: "GET",
             credentials: "include",
-        }).catch((error) => console.error("Error fetching CSRF token:", error));
+        }).catch((error) => console.error("CSRF token retrieval error:", error));
     }, []);
 
     const login = (event) => {
@@ -30,7 +30,14 @@ function Login() {
           body: JSON.stringify({ "username": username, "password": password })
         })
         .then((response) => response.json())
-        .then(() => navigate('/', { state: { username: username } }))
+        .then((error) => {
+            if (error.error == "None, login successful") {
+                navigate('/', { state: { username: username } })
+            } else {
+                console.error("Error:", error.error); 
+                setErrorForUser(error.error)
+            }}
+        )
         .catch((error) => {console.error("Error:", error); setErrorForUser("There was an error logging you in")});
     }
 
@@ -39,14 +46,16 @@ function Login() {
             <div className="error">
                 <p>{errorForUser}</p>
             </div>
-            <form onSubmit={login}>
-                <CSRFToken />
-                <label htmlFor="username">Username: </label>
-                <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
-                <label htmlFor="password">Password: </label>
-                <input type="text" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
-                <button type="submit">Log in</button>
-            </form>
+            <div className="form">
+                <form onSubmit={login}>
+                    <CSRFToken />
+                    <label htmlFor="username">Username: </label>
+                    <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
+                    <label htmlFor="password">Password: </label>
+                    <input type="text" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
+                    <button type="submit">Log in</button>
+                </form>
+            </div>
             <p>Don't have an account? Register <a href="/register">here</a></p>
         </>
     )
