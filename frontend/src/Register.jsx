@@ -54,9 +54,9 @@ function Login() {
                     <label htmlFor="username">Username: </label>
                     <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
                     <label htmlFor="password">Password: </label>
-                    <input type="text" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
+                    <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)}/><br/>
                     <label htmlFor="password">Confirm password: </label>
-                    <input type="text" id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/><br/>
+                    <input type="password" id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/><br/>
                     <button type="submit">Register</button>
                 </form>
             </div>
