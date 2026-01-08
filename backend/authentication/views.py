@@ -2,9 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 @ensure_csrf_cookie
@@ -38,3 +37,10 @@ def save_register(request):
             return JsonResponse({"error": "None, user creation successful"}) # this is for pulling up their tasks automatically
         return JsonResponse({"error": "Passwords don't match!"})
     return JsonResponse({"error": "Needs a post request to register new user"})
+
+@ensure_csrf_cookie
+def logout_user(request): 
+    if request.method == "POST": 
+        logout(request)
+        return JsonResponse({"error": "None, logged out successfully"})
+    return JsonResponse({"error": "Needs a post request to log out current user"})

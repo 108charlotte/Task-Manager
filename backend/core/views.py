@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from .models import Task
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 import json
 from django.http import JsonResponse
 
 # Create your views here.
 # so django doesn't reject request
-@csrf_exempt
+@ensure_csrf_cookie
 def getUserTasks(request): 
     if request.method == "POST": 
         data = json.loads(request.body)
@@ -14,7 +14,7 @@ def getUserTasks(request):
         return getTasks(username)
     return JsonResponse({"error": "Needs a post request to retreive user's tasks"})
 
-@csrf_exempt
+@ensure_csrf_cookie
 def addTaskForUser(request): 
     if request.method == "POST": 
         data = json.loads(request.body)
@@ -28,7 +28,7 @@ def addTaskForUser(request):
         return getTasks(username)
     return JsonResponse({"error": "Needs a post request to get a user's tasks"})
 
-@csrf_exempt
+@ensure_csrf_cookie
 def deleteTask(request): 
     # does this really need to be a post request? 
     if request.method == "POST": 
