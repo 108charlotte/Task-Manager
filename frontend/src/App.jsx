@@ -81,43 +81,45 @@ function App() {
   return (
     <>
       <h1>Tasks Manager</h1>
-      <p>Welcome {location.state?.activeUserUsername}! </p>
-      <div class="username-form">
-        <form onSubmit={handleSubmit}>
-          <label>Enter a username to see their tasks (case-sensitive)</label><br/><br/>
-          <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
-          <br/>
-          <button type="submit">See this user's tasks</button>
-        </form>
-      </div>
-
-      <div className="error">
-        <p>{errorForUser}</p>
-      </div>
-      {tasks.length > 0 && tasksLoaded && 
-        <div className="task-list">
-          <p>Tasks: </p>
-          {
-            <ul className="task-list-ul">
-              {/* need to make the : conditional on if there is a description */}
-              {tasks.map((task, index) => (
-                <li onClick={deleteTask} key={index} id={task.name}>{task.name}: {task.description}</li>
-              ))}
-            </ul>
-          }
-        </div>
-      }
-        {tasksLoaded && (
-          <div class="add-task">
-            <form onSubmit={addTask}>
-              <label>Write the name and (optionally) a short description of a task for this user: </label><br /><br />
-              <input type="text" id="namefortask" name="namefortask" value={namefortask} onChange={(e) => {setnamefortask(e.target.value); setErrorForUser("");}}/><br/> {/* error not getting set */}
-              <input type="text" id="descfortask" name="descfortask" value={descfortask} onChange={(e) => {setdescfortask(e.target.value); setErrorForUser("");}}/><br/> {/* error not getting set */}
-              <br />
-              <button type="submit">Add a new task</button>
+      {location.state?.activeUserUsername ? (
+        <>
+          <p>Welcome {location.state?.activeUserUsername}! </p>
+          <div className="username-form">
+            <form onSubmit={handleSubmit}>
+              <label>Enter a username to see their tasks (case-sensitive)</label><br/><br/>
+              <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
+              <br/>
+              <button type="submit">See this user's tasks</button>
             </form>
           </div>
-        )}
+
+          <div className="error">
+            <p>{errorForUser}</p>
+          </div>
+          {tasks.length > 0 && tasksLoaded && 
+            <div className="task-list">
+              <p>Tasks: </p>
+              <ul className="task-list-ul">
+                {tasks.map((task, index) => (
+                  <li onClick={deleteTask} key={index} id={task.name}>{task.name}: {task.description}</li>
+                ))}
+              </ul>
+            </div>
+          }
+          {tasksLoaded && (
+            <div className="add-task">
+              <form onSubmit={addTask}>
+                <label>Write the name and (optionally) a short description of a task for this user: </label><br /><br />
+                <input type="text" id="namefortask" name="namefortask" value={namefortask} onChange={(e) => {setnamefortask(e.target.value); setErrorForUser("");}}/><br/>
+                <input type="text" id="descfortask" name="descfortask" value={descfortask} onChange={(e) => {setdescfortask(e.target.value); setErrorForUser("");}}/><br/>
+                <br />
+                <button type="submit">Add a new task</button>
+              </form>
+            </div>
+          )}
+        </>
+      ) : 
+      <p>Log in <a href="/login">here</a>, or if you don't have an account, register <a href="/register">here</a>! </p>}
     </>
   )
 }
