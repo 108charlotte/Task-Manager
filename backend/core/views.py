@@ -47,6 +47,9 @@ def deleteTask(request):
         username_for_task = data.get("usernamefortask")
         # not necessarily the current user, but for the task to exist the user must exist since each new task is assigned a user
         user = User.objects.filter(username=username_for_task).first() # will work since I restricted new user sign ups to only accept one user per username
+        current_user = request.user
+        if user != current_user: 
+            return JsonResponse({"error": "You cannot delete another user's tasks"})
         delete_task_entry = Task.objects.filter(user=user, name=task_name).first() # first works because I have a precaution against adding duplicate names
         if not delete_task_entry: 
             return JsonResponse({"error": "Task attempted to be deleted does not exist"})
