@@ -34,7 +34,7 @@ def save_register(request):
                 return JsonResponse({"error": "A user has already registered with this username. Please choose another, or if you think this is you, head over to the login page"})
             new_user = User.objects.create_user(username=username, password=password)
             login(request, new_user)
-            return JsonResponse({"error": "None, user creation successful"}) # this is for pulling up their tasks automatically
+            return JsonResponse({"error": "None, user creation successful"})
         return JsonResponse({"error": "Passwords don't match!"})
     return JsonResponse({"error": "Needs a post request to register new user"})
 

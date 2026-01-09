@@ -19,7 +19,8 @@ h1 {
 }
 
 .username-form {
-  background: rgb(202, 202, 202); 
+  background: rgb(243, 243, 243); 
+  box-shadow: rgb(92, 92, 92); 
   padding: 15px; 
   border-radius: 10px; 
   margin: 10px; 
@@ -27,7 +28,8 @@ h1 {
 }
 
 .task-list {
-  background: rgb(212, 212, 212); 
+  background: rgb(243, 243, 243); 
+  box-shadow: rgb(92, 92, 92); 
   padding: 15px; 
   border-radius: 10px; 
   border-radius: 10px; 
@@ -36,7 +38,8 @@ h1 {
 }
 
 .add-task {
-  background: rgb(212, 212, 212); 
+  background: rgb(243, 243, 243); 
+  box-shadow: rgb(92, 92, 92); 
   padding: 15px; 
   border-radius: 10px; 
   border-radius: 10px; 
