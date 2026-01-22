@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'; 
 import './AuthLayout.css'; 
-import CSRFToken, { getCookie } from './csrftoken.jsx'; 
+import { getCookie } from './csrftoken.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
 
 function Login() {
@@ -48,7 +48,6 @@ function Login() {
             </div>
             <div className="form">
                 <form onSubmit={login}>
-                    <CSRFToken />
                     <label htmlFor="username">Username: </label>
                     <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)}/><br/>
                     <label htmlFor="password">Password: </label>

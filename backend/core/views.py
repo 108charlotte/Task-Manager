@@ -57,7 +57,7 @@ def deleteTask(request):
         return JsonResponse({"error": "None, successfully deleted task"})
     return JsonResponse({"error": "Needs a post request to update the status of the user's tasks"})
 
-# utility function called at the end of every function so that the frontend knows what to display, rn this isn't working for some reason? 
+# utility function
 def getTasks(user): 
     user_tasks = list(Task.objects.filter(user=user).values("name", "description"))
     return JsonResponse(user_tasks, safe=False)

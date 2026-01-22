@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'; 
 import './App.css'; 
 import { useLocation } from 'react-router-dom'; 
-import CSRFToken, { getCookie } from './csrftoken.jsx'; 
+import { getCookie } from './csrftoken.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
 
 function App() {

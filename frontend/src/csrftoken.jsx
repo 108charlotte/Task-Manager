@@ -26,5 +26,4 @@ const CSRFToken = () => {
     <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken} />
   );
 };
-export default CSRFToken;
 export { getCookie };

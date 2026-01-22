@@ -7,13 +7,9 @@ services:
     # idk if this volumes thing is right here
     volumes:
       - ./backend:/app
-    command: >
-      sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    environment: 
-      - DB_HOST=db
-      - DB_NAME=db
-      - DB_USER=user
-      - DB_PASS=temp
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    env_file:
+      - .env
     depends_on: 
       db: 
         condition: service_healthy
@@ -29,17 +25,15 @@ services:
       - db-data:/var/lib/postgresql/data
     ports: 
     # default port for postgres
-      - 5432:5432
-    environment: 
-      - POSTGRES_DB=db
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=temp
+    - "5432:5432"
+    env_file:
+      - .env
     healthcheck: 
     # checks that database is up/healthy
-      test: ["CMD", "pg_isready", "-U", "user", "-d", "db", "-h", "localhost", "-p", "5432"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 20
 
 volumes: 
-  db-data: 
+  db-data:

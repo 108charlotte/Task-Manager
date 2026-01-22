@@ -2,4 +2,4 @@
 Django>=5.1,<6.0
 django-cors-headers
 # this is the one for production
-psycopg[c]==3.2.3
+psycopg==3.2.3
