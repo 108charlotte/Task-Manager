@@ -4,6 +4,8 @@ import { useLocation } from 'react-router-dom';
 import { getCookie } from './csrftoken.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
 
+const url = import.meta.env.VITE_FETCH_URL
+
 function App() {
   const location = useLocation();
 
@@ -19,7 +21,7 @@ function App() {
   const navigate = useNavigate(); 
 
   function getTasksForUsername() {
-    fetch("http://localhost:8000/tasks", {
+    fetch(url + ":8000/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", 
@@ -48,7 +50,7 @@ function App() {
   }
 
   useEffect(() => {
-      fetch("http://localhost:8000/authentication/login", {
+      fetch(url + ":8000/authentication/login", {
           method: "GET",
           credentials: "include",
       }).catch((error) => console.error("CSRF token retrieval error:", error));
@@ -56,7 +58,7 @@ function App() {
 
   useEffect(() => {
     if (sendStatusUpdateRequest) {
-      fetch("http://localhost:8000/deletetask", {
+      fetch(url + ":8000/deletetask", {
         method: "POST", 
         headers: {
           "Content-Type": "application/json", 
@@ -89,7 +91,7 @@ function App() {
   const addTask = (event) => {
     event.preventDefault(); 
     setErrorForUser("");
-    fetch("http://localhost:8000/addtask", {
+    fetch(url + ":8000/addtask", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json", 
@@ -121,7 +123,7 @@ function App() {
   const logout = (event) => {
     event.preventDefault(); 
     setErrorForUser("");
-    fetch("http://localhost:8000/authentication/logout", {
+    fetch(url + ":8000/authentication/logout", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json", 
@@ -146,10 +148,9 @@ function App() {
       {location.state?.activeUserUsername ? (
         <>
           <p>Welcome {location.state?.activeUserUsername}! </p>
-          <form onSubmit={logout}><CSRFToken /><button type="submit">Log out</button></form>
+          <form onSubmit={logout}><button type="submit">Log out</button></form>
           <div className="username-form">
             <form onSubmit={handleSubmit}>
-              <CSRFToken />
               <label>Enter a username to see their tasks (case-sensitive)</label><br/><br/>
               <input type="text" id="username" name="username" value={username} onChange={(e) => {setUsername(e.target.value); setTasksLoaded(false); }}/><br/>
               <br/>
@@ -175,7 +176,6 @@ function App() {
           {tasksLoaded && location.state?.activeUserUsername == username && (
             <div className="add-task">
               <form onSubmit={addTask}>
-                <CSRFToken />
                 <label>Write the name and (optionally) a short description of a task for this user: </label><br /><br />
                 <input type="text" id="namefortask" name="namefortask" value={namefortask} onChange={(e) => {setnamefortask(e.target.value); setErrorForUser("");}}/><br/>
                 <input type="text" id="descfortask" name="descfortask" value={descfortask} onChange={(e) => {setdescfortask(e.target.value); setErrorForUser("");}}/><br/>

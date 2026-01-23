@@ -3,6 +3,8 @@ import './AuthLayout.css';
 import { getCookie } from './csrftoken.jsx'; 
 import { useNavigate } from 'react-router-dom'; 
 
+const url = import.meta.env.VITE_FETCH_URL
+
 function Login() {
     const [username, setUsername] = useState(""); 
     const [password, setPassword] = useState(""); 
@@ -12,7 +14,7 @@ function Login() {
 
     // sends initial CSRF token request
     useEffect(() => {
-        fetch("http://localhost:8000/authentication/login", {
+        fetch(url + ":8000/authentication/login", {
             method: "GET",
             credentials: "include",
         }).catch((error) => console.error("CSRF token retrieval error:", error));
@@ -20,7 +22,7 @@ function Login() {
 
     const login = (event) => {
         event.preventDefault(); 
-        fetch("http://localhost:8000/authentication/login", {
+        fetch(url + ":8000/authentication/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
