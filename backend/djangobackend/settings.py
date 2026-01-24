@@ -26,7 +26,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-dev-key-change-in-pro
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "backend"]
+frontend_url = os.environ.get('VITE_FETCH_URL')
+
+# uses urllib library to extract hostname
+import urllib.parse
+parsed = urllib.parse.urlparse(frontend_url)
+frontend_hostname = parsed.hostname
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "backend", frontend_hostname]
 
 
 # Application definition
@@ -129,14 +136,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS Configuration
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    f"{frontend_url}:5173"
 ]
-
-CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    f"{frontend_url}:5173"
 ]
+
+CORS_ALLOW_CREDENTIALS = True
