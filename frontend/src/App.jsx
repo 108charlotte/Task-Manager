@@ -21,7 +21,7 @@ function App() {
   const navigate = useNavigate(); 
 
   function getTasksForUsername() {
-    fetch(url + ":8000/tasks", {
+    fetch(url + "/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json", 
@@ -50,7 +50,7 @@ function App() {
   }
 
   useEffect(() => {
-      fetch(url + ":8000/authentication/login", {
+      fetch(url + "/authentication/login", {
           method: "GET",
           credentials: "include",
       }).catch((error) => console.error("CSRF token retrieval error:", error));
@@ -58,7 +58,7 @@ function App() {
 
   useEffect(() => {
     if (sendStatusUpdateRequest) {
-      fetch(url + ":8000/deletetask", {
+      fetch(url + "/deletetask", {
         method: "POST", 
         headers: {
           "Content-Type": "application/json", 
@@ -91,7 +91,7 @@ function App() {
   const addTask = (event) => {
     event.preventDefault(); 
     setErrorForUser("");
-    fetch(url + ":8000/addtask", {
+    fetch(url + "/addtask", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json", 
@@ -123,7 +123,7 @@ function App() {
   const logout = (event) => {
     event.preventDefault(); 
     setErrorForUser("");
-    fetch(url + ":8000/authentication/logout", {
+    fetch(url + "/authentication/logout", {
       method: "POST", 
       headers: {
         "Content-Type": "application/json", 

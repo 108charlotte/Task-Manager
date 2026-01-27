@@ -15,7 +15,7 @@ function Register() {
 
     // sends initial CSRF token request
     useEffect(() => {
-        fetch(url + ":8000/authentication/login", {
+        fetch(url + "/authentication/login", {
             method: "GET",
             credentials: "include",
         }).catch((error) => console.error("CSRF token retrieval error:", error));
@@ -23,7 +23,7 @@ function Register() {
 
     const register = (event) => {
         event.preventDefault(); 
-        fetch(url + ":8000/authentication/register", {
+        fetch(url + "/authentication/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
