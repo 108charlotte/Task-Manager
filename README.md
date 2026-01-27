@@ -11,6 +11,8 @@ During my internship at Georgia's AOC, I got to learn about the different techno
 - Containerization: Docker
 - Hosting: AWS
   - **Disclaimer**: Since this project is hosted on the cheapest EC2 instance AWS offers for the Amazon Linux OS (in order to avoid running out of free plan credits) wait times when loading the web page can be slow. Please be patient, it is working but it may take a while :)
+ 
+Another note: currently, nginx is set up to make the url: http://taskmanager.is-a.software/ work instead of the ip of the EC2, so accessing the application via the EC2 ip address directly won't work! 
 
 ## About the Project
 The project is structured into two separate folders: a frontend folder, which contains the code and Dockerfile for the Django container (the Dockerfile also contains installations for the Postgres database), and a backend folder, which contains the code and Dockefile for the React container. There is a Docker Compose file at the repository root which spins up both containers along with the PostgreSQL database. There are three Docker containers in total: one frontend, one backend, and one database. Then, I deployed everything on an Amazon EC2 instance, which I detailed how to do in my tutorial. 
