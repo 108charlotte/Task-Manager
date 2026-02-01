@@ -143,7 +143,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     f"{frontend_url}", 
     "http://localhost", 
-    "http://127.0.0.1"
+    "http://127.0.0.1",
+    "https://taskmanager.is-a.software",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -151,7 +152,13 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
     f"{frontend_url}",
     "http://localhost", 
-    "http://127.0.0.1"
+    "http://127.0.0.1", 
+    "https://taskmanager.is-a.software"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+
+# HTTPS Security Settings
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
